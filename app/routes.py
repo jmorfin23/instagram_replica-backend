@@ -1,5 +1,6 @@
 from app import app
-
+from app.models import User
+from flask import jsonify, request, redirect, url_for
 
 @app.route('/')
 @app.route('/index')
@@ -9,7 +10,11 @@ def index():
 
 @app.route('/api/register')
 def register():
-    pass
+
+    token = request.headers.get('token')
+
+    print(token)
+
 
 
 @app.route('/api/login')
