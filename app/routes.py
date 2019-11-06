@@ -1,4 +1,4 @@
-from app import app
+from app import app, db
 from app.models import User
 from flask import jsonify, request, redirect, url_for
 import jwt
@@ -14,30 +14,30 @@ def index():
 @app.route('/api/register', methods=['GET', 'POST'])
 def register():
 
-    print('test')
-    token = request.headers.get('token')
-
-    print('test02')
-
-
-    # decode the token back to a dictionary
-    data = jwt.decode(
-    token,
-    app.config['SECRET_KEY'],
-    algorithm=['HS256']
-    )
-    print(data)
-
-    #create the user
+    try:
+        token = request.headers.get('token')
 
 
 
+        # decode the token back to a dictionary
+        data = jwt.decode(
+        token,
+        app.config['SECRET_KEY'],
+        algorithm=['HS256']
+        )
+        print(data)
 
-    return jsonify({ 'Success': 'There was something returned!'})
 
+        #create the user
+        user = User(email=data['email'], fullname=data['name'], username=data['username'])
+        user.set_password(data['password'])
 
-    # except:
-    #     return jsonify({ 'Error_001': 'There is an error withing /api/register'})
+        db.session.add(user)
+        db.session.commit()
+
+        return jsonify({ 'Success': 'User created!'})
+    except:
+        return jsonify({ 'Error_001': 'User not created, try again.'})
 
 
 @app.route('/api/login', methods=['GET', 'POST'])

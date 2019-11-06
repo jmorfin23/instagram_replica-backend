@@ -11,6 +11,7 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(120), index=True, unique=True)
     fullname = db.Column(db.String(64))
     username = db.Column(db.String(64), unique=True)
+    url = db.Column(db.String(500), default='http://placehold.it/250x250')
     password_hash = db.Column(db.String(128))
 
     #sets password when registering
@@ -43,4 +44,4 @@ class User(UserMixin, db.Model):
 
 
 
-#create class for posts here 
+#create class for posts here
