@@ -60,4 +60,4 @@ def login():
         return jsonify({ 'message': 'Error #002: Invalid credentials' })
 
     # create a token and return it
-    return jsonify({ 'message': 'success', 'token': user.get_token() })
+    return jsonify({ 'message': 'success', 'token': user.get_token(), 'email': user.email, 'username': user.username, 'url': user.url, 'fullname': user.fullname, 'iat': data['iat'], 'exp': data['exp']})
