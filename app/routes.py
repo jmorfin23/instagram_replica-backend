@@ -61,3 +61,25 @@ def login():
 
     # create a token and return it
     return jsonify({ 'message': 'success', 'token': user.get_token(), 'email': user.email, 'username': user.username, 'url': user.url, 'fullname': user.fullname, 'iat': data['iat'], 'exp': data['exp']})
+
+
+
+@app.route('/api/data', methods=['GET', 'POST'])
+def data():
+    try:
+        token = request.headers.get('token')
+
+        # get user id or none
+        user = User.verify_token(token)
+
+        if not user:
+            return jsonify({ 'message': 'Error #003: Invalid user' })
+
+        data = {
+            'name': 'John Smith',
+            'age': 27
+        }
+
+        return jsonify({ 'info': data })
+    except:
+        return jsonify({ 'message': 'Error #005: Invalid token' })
