@@ -1,5 +1,6 @@
 from app import db, login, app
 from flask_login import UserMixin
+from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from time import time
 import jwt
@@ -45,3 +46,9 @@ class User(UserMixin, db.Model):
 
 
 #create class for posts here
+
+class Post(db.Model):
+    post_id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id')) # for logins
+    message = db.Column(db.String(140))
+    date_posted = db.Column(db.DateTime, default=datetime.now().date())
