@@ -83,3 +83,15 @@ def data():
         return jsonify({ 'info': data })
     except:
         return jsonify({ 'message': 'Error #005: Invalid token' })
+
+
+@app.route('/api/update-profile-picture')
+def update_profile_pic():
+    picture = request.headers.get('picture')
+
+    print('*****')
+    print('*****')
+    print('*****')
+    print(picture)
+    print('*****')
+    print('*****')
