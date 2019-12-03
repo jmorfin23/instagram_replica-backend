@@ -87,11 +87,18 @@ def data():
 
 @app.route('/api/update-profile-picture')
 def update_profile_pic():
-    picture = request.headers.get('picture')
+    picture = request.headers.get('image')
+    email = request.headers.get('email')
 
-    print('*****')
-    print('*****')
-    print('*****')
-    print(picture)
-    print('*****')
-    print('*****')
+    #query the database for email
+    user = User.query.filter_by(email=email).first()
+
+    if not user:
+        return jsonify({'message': 'Error'})
+
+    user.url = picture
+
+    db.session.add(user)
+    db.session.commit()
+
+    return jsonify({'message': 'success'})
